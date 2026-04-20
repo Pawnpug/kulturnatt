@@ -37,10 +37,12 @@ def scoring_users(current_user: User, user_pool: list[User]) -> list[tuple[User,
         artist_director_score = (shared_artists + shared_directors) * ARTIST_DIRECTOR_MULTIPLIER
         genre_score = (shared_music_genre + shared_movie_genre) * GENRE_MULTIPLIER
         
+        
+        
         user_score = event_score + song_movie_score + artist_director_score + genre_score
         ranked_user_pool.append((user, user_score))
-        
     return sorted(ranked_user_pool, key=lambda x: x[1], reverse=True)
+
 # huvudfunktion som kallar på de två övre, filter och scoring / sortering
 def get_scored_users(current_user: User, all_users: list[User]) -> list[tuple[User, int]]:
     user_pool = filter_users(current_user, all_users)
