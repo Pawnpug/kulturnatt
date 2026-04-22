@@ -8,7 +8,8 @@ def filter_users(current_user: User, all_users: list[User]) -> list[User]:
         age_ok = (user.age_range[0] <= current_user.age <= user.age_range[1] and current_user.age_range[0] <= user.age <= current_user.age_range[1])
         gender_ok = (current_user.gender == user.gender)
         not_blocked = (user.user_id not in current_user.blocked_users and current_user.user_id not in user.blocked_users)
-        if age_ok and gender_ok and not_blocked:
+        not_rejected = (user.user_id not in current_user.rejected_users)
+        if age_ok and gender_ok and not_blocked and not_rejected:
             user_pool.append(user)
     return user_pool
 
@@ -37,8 +38,6 @@ def scoring_users(current_user: User, user_pool: list[User]) -> list[tuple[User,
         artist_director_score = (shared_artists + shared_directors) * ARTIST_DIRECTOR_MULTIPLIER
         genre_score = (shared_music_genre + shared_movie_genre) * GENRE_MULTIPLIER
         
-        
-        
         user_score = event_score + song_movie_score + artist_director_score + genre_score
         ranked_user_pool.append((user, user_score))
     return sorted(ranked_user_pool, key=lambda x: x[1], reverse=True)
@@ -47,3 +46,8 @@ def scoring_users(current_user: User, user_pool: list[User]) -> list[tuple[User,
 def get_scored_users(current_user: User, all_users: list[User]) -> list[tuple[User, int]]:
     user_pool = filter_users(current_user, all_users)
     return scoring_users(current_user, user_pool)
+
+def get_scored_rejected_users(current_user: User, all_users: list[User]) -> list[tuple[User, int]]:
+    rejected_pool = [user for user in all_users if user.user_id in current_user.rejected_users]
+    return scoring_users(current_user, rejected_pool)
+
