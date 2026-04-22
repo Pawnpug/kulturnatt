@@ -1,27 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import ArtistSearch from "./components/ArtistSearch";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Kulturnatt</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.header}>Test profile</Text>
+
+        <View style={styles.card}>
+          <ArtistSearch
+            onSelectArtist={(artist) => {
+              console.log("Selected artist:", artist);
+            }}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#f3f0d6',
-    alignItems: 'center',
-    paddingTop: 80,
+    backgroundColor: "#f2f2f2",
   },
-  title: {
-    color: '#44150e',
-    fontSize: 36,
-    fontWeight: 'bold',
-    paddingTop: 30,
-    marginBottom: 20,
+  container: {
+    padding: 20,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 16,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 16,
   },
 });
