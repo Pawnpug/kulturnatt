@@ -5,7 +5,6 @@ from typing import List, Tuple, Optional, Dict
 from user import User
 from swipeAlgo import get_scored_users, get_scored_rejected_users, EVENT_MULTIPLIER, SONG_MOVIE_MULTIPLIER, ARTIST_DIRECTOR_MULTIPLIER, GENRE_MULTIPLIER
 
-
 class MatchAlgo:
     """MatchAlgo - Hittar och sorterar matchningar checkar vid swipe,
     anger vad som visas för användaren"""
@@ -42,6 +41,11 @@ class MatchAlgo:
             return False
 
         return True
+
+    def get_swipe_nej_lista(self) -> List[User]:
+        """Swipeat nej-lista (nej och unmatchade) - sorterad efter senast swipad"""
+        scored_rejected = get_scored_rejected_users(self.current_user, self.all_users)
+        return [user for user, _ in scored_rejected]
     
     def _get_common_items(self, other_user: User, attr1: str, attr2: str = None) -> set:
         """Hjälpfunktion för att hitta gemensamma items mellan två användare"""
@@ -49,7 +53,7 @@ class MatchAlgo:
         items2 = getattr(other_user, attr1)
         common = set(items1) & set(items2)
         
-        if attr2:  # Om vi har två attribut att slå ihop (t.ex. songs och movies)
+        if attr2:  # Om vi har två gemensamma attribut (t.ex. songs och movies) slås de ihop
             items1_2 = getattr(self.current_user, attr2)
             items2_2 = getattr(other_user, attr2)
             common |= set(items1_2) & set(items2_2)
@@ -60,7 +64,8 @@ class MatchAlgo:
         """Hjälpfunktion för att få matchdetaljer från gemensamma intressen"""
         details = {}
         
-        # Definerar kategorier: (nyckel, visningsnamn, attribut1, attribut2, multiplier)
+        # Definerar kategorier: Nyckel som består av de gemensamma intressena, visningsnamn, attribut1, attribut2 
+        # (om det finns), och en multiplier för poängberäkning
         categories = [
             ('events', 'Event', 'events', None, EVENT_MULTIPLIER),
             ('songs_movies', 'Låtar/Filmer', 'songs', 'movies', SONG_MOVIE_MULTIPLIER),
@@ -112,17 +117,13 @@ class MatchAlgo:
 
     def get_potential_matches(self) -> List[Tuple[User, int, Dict]]:
         """Anropar SwipeAlgo's get_scored_users direkt och lägger till detaljer"""
-        scored_users = get_scored_users(self.current_user, self.all_users)
-        # Förslag sortera efter tid när swipet gjordes och inte efter poäng
-        
+        # Filtrera bort current_user själv
+        filtered_users = [user for user in self.all_users if user.user_id != self.current_user.user_id]
+    
+        scored_users = get_scored_users(self.current_user, filtered_users)
+    
         # Lägger till details för varje matchning
         return [(user, score, self._get_match_details(user)) for user, score in scored_users]
-
-    def get_swipe_nej_lista(self) -> List[User]:
-        """Swipeat nej-lista (nej och unmatchade) - sorterad efter senast swipad"""
-        scored_rejected = get_scored_rejected_users(self.current_user, self.all_users)
-        return [user for user, _ in scored_rejected]
-
 
 # ============= TESTNING =============
 
@@ -152,9 +153,17 @@ if __name__ == "__main__":
         music_genre=[], movie_genre=["Action"]
     )
 
-    all_users = [alice, bob, charlie]
+    bengt = User(
+        user_id=4, email="bengt@email.com", username="Bengt", age=31, gender="man",
+        blocked_users=[], rejected_users=[], age_range=(20, 35),
+        events=["Musikfestival"], songs=["Bohemian Rhapsody"], movies=["Interstellar"],
+        artists=["Freddie Mercury"], directors=["Christopher Nolan"],
+        music_genre=["Rock"], movie_genre=["Sci-fi"]
+    )
+
+    all_users = [alice, bob, charlie, bengt]
     
-    # Testa MatchAlgo för Alice
+    # Testar MatchAlgo för Alice
     print("=" * 50)
     print("MatchAlgo test för Alice")
     print("=" * 50)
@@ -166,29 +175,29 @@ if __name__ == "__main__":
     for idx, (user, score, details) in enumerate(matches):
         print(f"  {user.username} ({user.age} år): {score} poäng")
         
-        # Visa highlight för bästa matchningen
+        # Visar highlight för bästa matchningen
         if idx == 0:
             highlight, num, cat_score = match_algo.get_best_match_highlight(user)
             if highlight != "Ingen match":
                 print(f"    ✨ Bäst: {highlight} ({num} st, {cat_score} poäng)")
     
-    # Testa basic_check
+    # Testar basic_check
     print("\n" + "=" * 50)
     print("Basic check test")
     print("=" * 50)
     
-    print(f"\nKollar om Alice och Bob klarar basic check:")
-    result = match_algo.basic_check(bob)
+    print(f"\nKollar om Alice och Bengt klarar basic check:")
+    result = match_algo.basic_check(bengt)
     print(f"  Resultat: {result}")
     
-    # Testa nej-listan
+    # Testar nej-listan
     print("\n" + "=" * 50)
     print("Nej-lista test")
     print("=" * 50)
     
-    # Lägger till Bob i Alice's rejected_users
-    alice.rejected_users.append(2)
-    print(f"\nAlice rejectade Bob (user_id: 2)")
+    # Lägger till Bengt i Alice's rejected_users
+    alice.rejected_users.append(4)
+    print(f"\nAlice rejectade Bengt (user_id: 4)")
     
     nej_listan = match_algo.get_swipe_nej_lista()
     print(f"Användare i Alice's nej-lista:")
