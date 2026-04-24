@@ -24,34 +24,6 @@ if MUSICBRAINZ_API_KEY:
     MUSICBRAINZ_HEADERS["Authorization"] = f"Bearer {MUSICBRAINZ_API_KEY}"
 
 
-COUNTRY_NAMES = {
-    "US": "United States",
-    "GB": "United Kingdom",
-    "SE": "Sweden",
-    "CA": "Canada",
-    "NO": "Norway",
-    "DK": "Denmark",
-    "FI": "Finland",
-    "DE": "Germany",
-    "FR": "France",
-    "ES": "Spain",
-    "IT": "Italy",
-    "AU": "Australia",
-    "NL": "Netherlands",
-    "BE": "Belgium",
-    "IE": "Ireland",
-    "IS": "Iceland",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "BR": "Brazil",
-    "MX": "Mexico",
-    "JP": "Japan",
-    "KR": "South Korea",
-    "CN": "China",
-    "IN": "India",
-}
-
-
 _spotify_token = None
 _spotify_token_expires_at = 0
 
