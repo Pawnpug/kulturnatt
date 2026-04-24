@@ -1,14 +1,13 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import ArtistSearch from "./components/ArtistSearch";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Test profile</Text>
+      <View style={styles.container}>
+        <Text style={styles.header}>Music search test</Text>
 
         <View style={styles.card}>
           <ArtistSearch
@@ -17,7 +16,7 @@ export default function App() {
             }}
           />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -28,6 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
   },
   container: {
+    flex: 1,
     padding: 20,
   },
   header: {
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   card: {
+    flex: 1,
     backgroundColor: "#fff",
     borderRadius: 16,
     padding: 16,
