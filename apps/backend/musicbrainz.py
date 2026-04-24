@@ -31,15 +31,20 @@ _spotify_token_expires_at = 0
 # MusicBrainz HTTP
 
 def _musicbrainz_get(endpoint, params=None):
-    response = requests.get(
-        f"{MUSICBRAINZ_BASE}/{endpoint}",
-        headers=MUSICBRAINZ_HEADERS,
-        params=params,
-        timeout=10
-    )
+    try:
+        response = requests.get(
+            f"{MUSICBRAINZ_BASE}/{endpoint}",
+            headers=MUSICBRAINZ_HEADERS,
+            params=params,
+            timeout=20
+        )
 
-    response.raise_for_status()
-    return response.json()
+        response.raise_for_status()
+        return response.json()
+
+    except requests.exceptions.RequestException:
+        return None
+
 
 
 # Spotify HTTP
@@ -116,12 +121,22 @@ def extract_year(date_string):
 
     return str(date_string)[:4]
 
-
 def get_country_name(country_code):
     if not country_code:
         return None
 
-    return COUNTRY_NAMES.get(country_code, country_code)
+    try:
+        import pycountry
+
+        country = pycountry.countries.get(alpha_2=country_code)
+
+        if country:
+            return country.name
+
+    except:
+        pass
+
+    return country_code
 
 
 def extract_genre_from_tags(tags):
