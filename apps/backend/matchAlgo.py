@@ -1,7 +1,5 @@
 from user import User
 
-# Returnerar en dictionary med alla gemensamma intressen mellan två användare
-# Använder set-operatorn & (snitt) för att hitta overlap i deras listor
 def get_shared_interests(user_a: User, user_b: User) -> dict:
     return {
         "events":      list(set(user_a.events)      & set(user_b.events)),
@@ -13,14 +11,9 @@ def get_shared_interests(user_a: User, user_b: User) -> dict:
         "movie_genre": list(set(user_a.movie_genre) & set(user_b.movie_genre)),
     }
 
-# Kollar om två användare gillar varandra ömsesidigt
-# Returnerar True om användare B finns i A's liked_users OCH användare A finns i B's liked_users
 def is_mutual_like(user_a: User, user_b: User) -> bool:
     return user_b.user_id in user_a.liked_users and user_a.user_id in user_b.liked_users
 
-# Skapar en match om båda användarna gillar varandra
-# Tar bort varandra från liked_users och lägger till i matched_users
-# Returnerar dictionary med användarna och deras gemensamma intressen, eller None om ingen ömsesidig like
 def create_match(user_a: User, user_b: User) -> dict | None:
     if not is_mutual_like(user_a, user_b):
         return None

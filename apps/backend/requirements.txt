@@ -1,2 +1,4 @@
 requests>=2.33.1
 python-dotenv>=1.2.2
+supabase>=2.0.0
+pycountry>=24.6.1
