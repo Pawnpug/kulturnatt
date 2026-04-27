@@ -8,6 +8,8 @@ class User:
         gender: str,
         blocked_users: list[int],
         rejected_users: list[int],
+        liked_users: list[int],
+        matchade_users: list[int],
         age_range: tuple[int, int],
         events: list[str],
         songs: list[str],
@@ -24,6 +26,8 @@ class User:
         self.gender = gender
         self.blocked_users = blocked_users
         self.rejected_users = rejected_users
+        self.liked_users = liked_users
+        self.matchade_users = matchade_users
         self.age_range = age_range
         self.events = events
         self.songs = songs
