@@ -35,7 +35,7 @@ def setup_profile(
     username: str,
     age: int,
     gender: str,
-    preferred_gender: str,
+    preferred_gender: list[str],
     age_range: tuple[int, int],
     events: list[str],
     songs: list[str],
