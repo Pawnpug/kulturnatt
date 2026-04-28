@@ -7,7 +7,7 @@ class User:
         username: str,
         age: int,
         gender: str,
-        preferred_gender: str,
+        preferred_gender: list[str],
         user_ranked_list: list[dict],
         blocked_users: list[uuid.UUID],
         rejected_users: list[uuid.UUID],
