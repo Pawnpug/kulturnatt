@@ -33,3 +33,7 @@ visas sorterat på poäng, högst först, lägst sist
 
 ## best-match highlight
 * baseras på hur många delade, kategori / totalt score 
+
+## sätt att få ner hur mycket resurser denna rankning kräver
+* cronjobb fungerar ej, för långsamt och onödigt om ingen har gjort ändringar
+* kalkylera endast om på: den user som ändrar, och de users som har denne i sin lista sen tidigare (går igenom alla basic checks)

@@ -5,11 +5,12 @@ from user import User
 def filter_users(current_user: User, all_users: list[User]) -> list[User]:
     user_pool = []
     for user in all_users:
+        not_self = (user.user_id != current_user.user_id)
         age_ok = (user.age_range[0] <= current_user.age <= user.age_range[1] and current_user.age_range[0] <= user.age <= current_user.age_range[1])
-        gender_ok = (current_user.gender == user.gender)
+        gender_ok = (current_user.preferred_gender in ("both", user.gender) and user.preferred_gender in ("both", current_user.gender))
         not_blocked = (user.user_id not in current_user.blocked_users and current_user.user_id not in user.blocked_users)
         not_rejected = (user.user_id not in current_user.rejected_users)
-        if age_ok and gender_ok and not_blocked and not_rejected:
+        if not_self and age_ok and gender_ok and not_blocked and not_rejected:
             user_pool.append(user)
     return user_pool
 

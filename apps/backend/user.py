@@ -1,15 +1,18 @@
+import uuid
+
 class User:
     def __init__(
         self,
-        user_id: int,
-        email: str,
+        user_id: uuid.UUID,
         username: str,
         age: int,
         gender: str,
-        blocked_users: list[int],
-        rejected_users: list[int],
-        liked_users: list[int],
-        matchade_users: list[int],
+        preferred_gender: str,
+        user_ranked_list: list[dict],
+        blocked_users: list[uuid.UUID],
+        rejected_users: list[uuid.UUID],
+        liked_users: list[uuid.UUID],
+        matched_users: list[uuid.UUID],
         age_range: tuple[int, int],
         events: list[str],
         songs: list[str],
@@ -20,14 +23,15 @@ class User:
         movie_genre: list[str],
     ):
         self.user_id = user_id
-        self.email = email
         self.username = username
         self.age = age
         self.gender = gender
+        self.preferred_gender = preferred_gender
+        self.user_ranked_list = user_ranked_list
         self.blocked_users = blocked_users
         self.rejected_users = rejected_users
         self.liked_users = liked_users
-        self.matchade_users = matchade_users
+        self.matched_users = matched_users
         self.age_range = age_range
         self.events = events
         self.songs = songs
