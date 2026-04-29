@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   onLoginPress?: () => void;
@@ -10,16 +11,21 @@ export default function StartScreen({
   onLoginPress,
   onCreateAccountPress,
 }: Props) {
+  const insets = useSafeAreaInsets();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>tsm</Text>
 
-      <View style={styles.buttonSection}>
+      <View style={[styles.buttonSection, { bottom: insets.bottom + 90 }]}>
         <TouchableOpacity style={styles.loginButton} onPress={onLoginPress}>
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.createButton} onPress={onCreateAccountPress}>
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={onCreateAccountPress}
+        >
           <Text style={styles.buttonText}>Create account</Text>
         </TouchableOpacity>
       </View>
@@ -30,15 +36,12 @@ export default function StartScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ecd7f8",
+    backgroundColor: "#ECD7F8",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 32,
-    paddingTop: 180,
-    paddingBottom: 70,
   },
 
   title: {
+    marginTop: 250,
     fontSize: 80,
     fontWeight: "900",
     color: "#000",
@@ -47,12 +50,14 @@ const styles = StyleSheet.create({
   },
 
   buttonSection: {
+    position: "absolute",
     width: "100%",
     alignItems: "center",
+    paddingHorizontal: 32,
   },
 
   loginButton: {
-    width: "78%",
+    width: "100%",
     backgroundColor: "#f7f2f8",
     paddingVertical: 14,
     borderRadius: 28,
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
   },
 
   createButton: {
-    width: "78%",
+    width: "100%",
     backgroundColor: "#C058E2",
     paddingVertical: 14,
     borderRadius: 28,
