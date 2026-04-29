@@ -1,17 +1,22 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+
 import StartScreen from "./screens/startScreen";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StartScreen />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <StartScreen />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    backgroundColor: "#ead6f4",
   },
 });

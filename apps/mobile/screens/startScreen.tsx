@@ -19,10 +19,7 @@ export default function StartScreen({
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.createButton}
-          onPress={onCreateAccountPress}
-        >
+        <TouchableOpacity style={styles.createButton} onPress={onCreateAccountPress}>
           <Text style={styles.buttonText}>Create account</Text>
         </TouchableOpacity>
       </View>
@@ -33,12 +30,15 @@ export default function StartScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ead6f4",
+    backgroundColor: "#ecd7f8",
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 32,
+    paddingTop: 180,
+    paddingBottom: 70,
   },
 
   title: {
-    marginTop: 245,
     fontSize: 80,
     fontWeight: "900",
     color: "#000",
@@ -49,12 +49,11 @@ const styles = StyleSheet.create({
   buttonSection: {
     width: "100%",
     alignItems: "center",
-    marginTop: 310,
   },
 
   loginButton: {
     width: "78%",
-    backgroundColor: "#f7f7f7",
+    backgroundColor: "#f7f2f8",
     paddingVertical: 14,
     borderRadius: 28,
     alignItems: "center",
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
 
   createButton: {
     width: "78%",
-    backgroundColor: "#c058e2",
+    backgroundColor: "#C058E2",
     paddingVertical: 14,
     borderRadius: 28,
     alignItems: "center",
