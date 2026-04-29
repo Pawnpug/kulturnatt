@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 type Props = {
   onLoginPress?: () => void;
@@ -17,26 +12,20 @@ export default function StartScreen({
 }: Props) {
   return (
     <View style={styles.container}>
-      {/* APPNAMN */}
       <Text style={styles.title}>tsm</Text>
 
-      {/* LOGIN */}
-      <TouchableOpacity
-        style={styles.primaryButton}
-        onPress={onLoginPress}
-      >
-        <Text style={styles.primaryButtonText}>Login</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonSection}>
+        <TouchableOpacity style={styles.loginButton} onPress={onLoginPress}>
+          <Text style={styles.buttonText}>Log in</Text>
+        </TouchableOpacity>
 
-      {/* CREATE ACCOUNT */}
-      <TouchableOpacity
-        style={styles.secondaryButton}
-        onPress={onCreateAccountPress}
-      >
-        <Text style={styles.secondaryButtonText}>
-          Create Account
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={onCreateAccountPress}
+        >
+          <Text style={styles.buttonText}>Create account</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -44,46 +33,55 @@ export default function StartScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
-    justifyContent: "center",
+    backgroundColor: "#ead6f4",
     alignItems: "center",
-    paddingHorizontal: 24,
   },
 
   title: {
-    fontSize: 42,
+    marginTop: 245,
+    fontSize: 80,
+    fontWeight: "900",
+    color: "#000",
+    letterSpacing: 2,
+    fontStyle: "italic",
+  },
+
+  buttonSection: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: 310,
+  },
+
+  loginButton: {
+    width: "78%",
+    backgroundColor: "#f7f7f7",
+    paddingVertical: 14,
+    borderRadius: 28,
+    alignItems: "center",
+    marginBottom: 62,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.28,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+
+  createButton: {
+    width: "78%",
+    backgroundColor: "#c058e2",
+    paddingVertical: 14,
+    borderRadius: 28,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.28,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+
+  buttonText: {
+    fontSize: 20,
     fontWeight: "800",
-    color: "#111",
-    marginBottom: 50,
-    textTransform: "uppercase",
-  },
-
-  primaryButton: {
-    width: "100%",
-    backgroundColor: "#111",
-    paddingVertical: 16,
-    borderRadius: 18,
-    alignItems: "center",
-    marginBottom: 14,
-  },
-
-  primaryButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-
-  secondaryButton: {
-    width: "100%",
-    backgroundColor: "#f2f2f2",
-    paddingVertical: 16,
-    borderRadius: 18,
-    alignItems: "center",
-  },
-
-  secondaryButtonText: {
-    color: "#111",
-    fontSize: 16,
-    fontWeight: "700",
+    color: "#000",
   },
 });
